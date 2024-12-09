@@ -83,7 +83,7 @@ export const MyDashboard = () => {
             });
             const updatedUser = await response.json();
             setUserFoods(updatedUser.userFood);
-            toast(' Workout Added Successfully!', {
+            toast(' Meal Removed Successfully!', {
                 position: "top-right",
                 autoClose: 5000,
                 hideProgressBar: false,
@@ -109,7 +109,8 @@ export const MyDashboard = () => {
 
         if (userfoods) {
             const requiredAmount = userfoods.reduce((acc, el) => acc + el.protein, 0) - protien;
-            setrequiredAmount(requiredAmount);
+            const result = Math.abs(requiredAmount)
+            setrequiredAmount(result);
         }
     }, [userfoods]);
 
