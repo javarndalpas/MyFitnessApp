@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { Bounce } from 'react-toastify';
 
@@ -101,7 +101,7 @@ export const Login = () => {
                     <div className="mt-4 text-center">
                         <p className="text-sm text-gray-600">
                             Don't have an account?{' '}
-                            <Link to="/signup" className="text-indigo-600 hover:text-indigo-700">Sign Up</Link>
+                            <NavLink to="/signup" className="text-indigo-600 hover:text-indigo-700">Sign Up</NavLink>
                         </p>
                     </div>
                 </div>
