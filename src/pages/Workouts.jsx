@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import { Bounce, toast } from "react-toastify";
 
 export const Workouts = () => {
     const navigate = useNavigate();
     const [data, setData] = useState([]);
     const [user, setUser] = useState(null);
     const id = localStorage.getItem("userId")
+    // const [presentWorkout,setPresentWorkout] = ([workoutId])
     if(id==undefined){
         navigate("/");
     }
@@ -21,6 +23,8 @@ export const Workouts = () => {
     }
     const addWorkout = async (workoutId) => {
         try {
+            // if(presentWorkout.include(workoutId)) return
+            
             const workout = data.find(workout => workout.id === workoutId);
             const response = await fetch(`https://6750666869dc1669ec1afc0f.mockapi.io/auth/${id}`, {
                 method: 'PUT',
@@ -34,6 +38,17 @@ export const Workouts = () => {
             });
             const updatedUser = await response.json();
             setUser(updatedUser);
+            toast(' Workout Added Successfully!', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+                transition: Bounce,
+                });
 
             console.log('Workout added:', updatedUser);
         } catch (err) {

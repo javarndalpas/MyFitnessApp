@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { Bounce } from 'react-toastify';
+
 
 export const Login = () => {
     const [username, setUsername] = useState("");
@@ -7,10 +10,8 @@ export const Login = () => {
     const [error, setError] = useState("");
     const navigate = useNavigate();
 
-
     const handleSubmit = (e) => {
         e.preventDefault();
-
         const getData = async () => {
             try {
                 const response = await fetch(`https://6750666869dc1669ec1afc0f.mockapi.io/auth/`)
@@ -27,7 +28,18 @@ export const Login = () => {
                     console.log(id, "yyyyyy");
                     localStorage.setItem('userId', id);
                     // console.log("Stored User ID in localStorage:", localStorage.getItem('userId'));
-                    navigate(`/mydashboard`)
+                    toast(' Login Successfull!', {
+                        position: "top-right",
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "dark",
+                        transition: Bounce,
+                        });
+                        navigate(`/home`)
                     
                 } else {
                     console.log("invalid input", filterData.length);

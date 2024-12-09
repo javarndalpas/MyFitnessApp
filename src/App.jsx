@@ -6,6 +6,8 @@ import { AllRoutes } from './pages/AllRoutes'
 import { Navbar } from './components/Navbar'
 import { useLocation } from 'react-router-dom'
 import { Footer } from './components/footer'
+import 'react-toastify/dist/ReactToastify.css';
+
 
 function App() {
   const [count, setCount] = useState(0)

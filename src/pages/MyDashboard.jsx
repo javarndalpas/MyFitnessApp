@@ -8,6 +8,7 @@ export const MyDashboard = () => {
     const [userWorkouts, setUserWorkouts] = useState();
     const [completedWorkouts, setCompletedWorkouts] = useState();
     const [incompletedWorkouts, setIncompletedWorkouts] = useState();
+    const [requiredAmount, setrequiredAmount] = useState(0);
     const [userfoods, setUserFoods] = useState()
     console.log(userfoods);
     const id = localStorage.getItem('userId');
@@ -32,6 +33,14 @@ export const MyDashboard = () => {
 
             setCompletedWorkouts(completed);
             setIncompletedWorkouts(Incompleted)
+            const required_amount = userfoods.reduce((acc, el) => (
+                acc += el.protein
+
+            ), 0)
+            setrequiredAmount(required_amount);
+
+            // console.log(required_amount,"======")
+            // console.log(requiredAmount,"======")
         }
         catch (err) {
             console.log(err);
@@ -40,7 +49,6 @@ export const MyDashboard = () => {
     const markAsCompleted = async (workoutId) => {
         try {
             console.log(workoutId, "yyyyy")
-
             const updatedWorkouts = userWorkouts.map(workout => {
                 console.log(workout.id, "xxxxx")
                 return workout.id === workoutId ? { ...workout, completed: !workout.completed } : workout
@@ -66,6 +74,10 @@ export const MyDashboard = () => {
     useEffect(() => {
         getData();
     }, []);
+
+    const addAWorkout =()=>{
+        navigate("/workouts")
+    }
     return (
         <>
             <div className="">
@@ -92,27 +104,29 @@ export const MyDashboard = () => {
                             </div>
                             <div className='flex flex-wrap gap-6 place-content-center mt-4'>
                                 {
-
-                                    completedWorkouts.map((workout) => (
-
-                                        <div className="Grid grid-rows-2 max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700" key={workout.id}>
-                                            <a href="#">
-                                                <img className="rounded-t-lg" src="https://i0.wp.com/post.healthline.com/wp-content/uploads/2023/02/female-dumbbells-1296x728-header-1296x729.jpg?w=1155&h=2268" alt="" />
-                                            </a>
-                                            <div className="p-5">
-                                                <a href="#">
-                                                    <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{workout.name}</h5>
-                                                </a>
-                                                <p className="mb-3 font-normal text-gray-700 dark:text-gray-400"><strong>Reps:</strong> {workout.reps}</p>
-                                                <p className="mb-3 font-normal text-gray-700 dark:text-gray-400"><strong>Workout Sets</strong> {workout.sets}</p>
-                                                <p className="mb-3 font-normal text-gray-700 dark:text-gray-400"><strong>Rest Time:</strong> {workout.rest_time}</p>
-
-                                                <button className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" onClick={() => markAsCompleted(workout.id)}>Completed</button>
-                                            </div>
-                                        </div>
-                                    ))
+                                    completedWorkouts && completedWorkouts.length > 0 ?
+                                        (
+                                            completedWorkouts.map((workout) => (
+                                                <div className="Grid grid-rows-2 max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700" key={workout.id}>
+                                                    <a href="#">
+                                                        <img className="rounded-t-lg" src="https://i0.wp.com/post.healthline.com/wp-content/uploads/2023/02/female-dumbbells-1296x728-header-1296x729.jpg?w=1155&h=2268" alt="" />
+                                                    </a>
+                                                    <div className="p-5">
+                                                        <a href="#">
+                                                            <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{workout.name}</h5>
+                                                        </a>
+                                                        <p className="mb-3 font-normal text-gray-700 dark:text-gray-400"><strong>Reps:</strong> {workout.reps}</p>
+                                                        <p className="mb-3 font-normal text-gray-700 dark:text-gray-400"><strong>Workout Sets</strong> {workout.sets}</p>
+                                                        <p className="mb-3 font-normal text-gray-700 dark:text-gray-400"><strong>Rest Time:</strong> {workout.rest_time}</p>
+                                                        <button className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" onClick={() => markAsCompleted(workout.id)}>Completed</button>
+                                                    </div>
+                                                </div>
+                                            ))
+                                        ) :
+                                        (
+                                            <p> No workouts Found </p>
+                                        )
                                 }
-
                             </div>
                             <div className='py-2 my-4 bg-blue-500'>
                                 <p className='text-2xl text-white'>Pending Workouts</p>
@@ -144,13 +158,17 @@ export const MyDashboard = () => {
                                         </div>
                                     ))
                                 ) : (
+                                    <div>
                                     <p>No workouts found.</p>
+                                    <button type="button" onClick={()=>addAWorkout()} class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">Add a Workout</button>
+                                    </div>
                                 )}
                             </div>
 
                             <div className='mt-4 mb-4 bg-black p-4'>
                                 <p className='text-4xl text-white'>Food and Calories</p>
                                 <p className='text-2xl text-white'>An average human required {protien} gm of protein in a day.</p>
+                                <p className='text-2xl text-white'> You required {requiredAmount} gm more to complete your diet </p>
                             </div>
                             <div className='flex flex-wrap gap-6 justify-center'>
                                 {userfoods && userfoods.length > 0 ? (
