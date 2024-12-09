@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Bounce, toast } from 'react-toastify';
 
 export const Signup = () => {
@@ -64,8 +64,6 @@ export const Signup = () => {
                 console.error('Error:', error);
                 alert('There was an error. Please try again.');
             });
-
-
     };
 
     return (
@@ -248,9 +246,9 @@ export const Signup = () => {
 
                         <p className="text-center text-sm text-gray-600 mt-4">
                             Already a member?{' '}
-                            <a href="/" className="text-indigo-600 hover:text-indigo-700">
+                            <Link to="/" className="text-indigo-600 hover:text-indigo-700">
                                 Login
-                            </a>
+                            </Link>
                         </p>
                     </form>
                 </div>

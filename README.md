@@ -55,6 +55,12 @@ User Progress Graphs: Add graphs to track workout progress over time.
 Offline Support: Add offline data storage (e.g., using IndexedDB) for better user experience.
 Real Backend: Replace MockAPI with a real backend (e.g., Node.js and MongoDB) for more robust data handling.
 
+commands:-
+npm install
+npm install -D tailwindcss
+npx tailwindcss init
+npm run dev
+
 
 Contributing:-
 

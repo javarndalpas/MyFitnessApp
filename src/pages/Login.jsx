@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { Bounce } from 'react-toastify';
 
@@ -91,9 +91,7 @@ export const Login = () => {
                         {error && <p className="text-red-500 text-sm">{error}</p>}
 
                         <div className="input-group">
-                            <button
-                                type="submit"
-                                className="w-full p-3 bg-indigo-600 text-white font-semibold rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                            <button type="submit"  className="w-full p-3 bg-indigo-600 text-white font-semibold rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                             >
                                 Login
                             </button>
@@ -103,7 +101,7 @@ export const Login = () => {
                     <div className="mt-4 text-center">
                         <p className="text-sm text-gray-600">
                             Don't have an account?{' '}
-                            <a href="/signup" className="text-indigo-600 hover:text-indigo-700">Sign Up</a>
+                            <Link to="/signup" className="text-indigo-600 hover:text-indigo-700">Sign Up</Link>
                         </p>
                     </div>
                 </div>
