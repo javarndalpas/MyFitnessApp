@@ -10,7 +10,8 @@ export const Home = () => {
         </p>
         <p className="absolute text-white text-4xl font-bold top-[400px] left-[850px]">Get Tailormade solution for your fitness goals</p>
       </div>
-      <div className="flex flex-wrap justify-center items-center mt-5">
+      
+      <div className="flex flex-wrap justify-center items-center mt-5 bg-gray-300">
         <div className="flex flex-col items-start p-5 space-y-4">
           <p className="text-brown-700 font-bold text-xl">
             <span>Set Goals.</span>
