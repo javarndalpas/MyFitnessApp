@@ -62,6 +62,9 @@ npx tailwindcss init
 npm run dev
 
 
+username-Alex
+Pass-123456
+
 Contributing:-
 
 Contributions are welcome! If you'd like to contribute to this project, please fork the repository and create a pull request. If you encounter any issues, feel free to contact me on alpasshrivastava.javarnd@gmail.com .
