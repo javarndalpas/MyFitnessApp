@@ -10,15 +10,15 @@ import { FoodRecommandations } from "./FoodRecommandations";
 export const AllRoutes = () => {
     return (
         <>
-        <div className="mt-20">
-            <Routes>
-                <Route path="/workouts" element={<Workouts />} />
-                <Route path="/food&calories" element={<FoodRecommandations />} />
-                <Route path="/Home" element={<Home />} />
-                <Route path="/" element={<Login />} />
-                <Route path="/signup" element={<Signup />} />
-                <Route path="/mydashboard/" element={<MyDashboard />} />
-            </Routes>
+            <div className="mt-20">
+                <Routes>
+                    <Route path="/workouts" element={<Workouts />} />
+                    <Route path="/food&calories" element={<FoodRecommandations />} />
+                    <Route path="/Home" element={<Home />} />
+                    <Route path="/" element={<Login />} />
+                    <Route path="/signup" element={<Signup />} />
+                    <Route path="/mydashboard/" element={<MyDashboard />} />
+                </Routes>
             </div>
         </>
     )

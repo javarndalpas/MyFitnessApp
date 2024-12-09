@@ -38,9 +38,9 @@ export const Login = () => {
                         progress: undefined,
                         theme: "dark",
                         transition: Bounce,
-                        });
-                        navigate(`/home`)
-                    
+                    });
+                    navigate(`/home`)
+
                 } else {
                     console.log("invalid input", filterData.length);
                     setError('Invalid username or password.')
@@ -57,8 +57,9 @@ export const Login = () => {
 
     return (
         <>
-            <div className="flex items-center justify-center min-h-screen bg-gray-100">
+            <div className="flex items-center justify-center min-h-screen bg-gray-100 mb-10">
                 <div className="w-full max-w-md p-8 bg-white shadow-md rounded-lg">
+                    <img src="https://www.envistaforensics.com/media/jsunplk3/adobestock_346159155.jpeg?anchor=center&mode=crop&width=900&height=447&rnd=132893360860700000&format=webp&quality=80" alt="" />
                     <h2 className="text-2xl font-bold text-center text-gray-700 mb-6">My Fitness Tracker - Login</h2>
 
                     <form id="login-form" onSubmit={handleSubmit} className="space-y-4">

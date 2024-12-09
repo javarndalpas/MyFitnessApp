@@ -4,7 +4,7 @@ export const Home = () => {
   return (
     <div>
       <div className="home_container relative bg-white h-[700px]">
-      <img src={homeBanner} alt="" />
+        <img src={homeBanner} alt="" />
         <p className="absolute text-white text-4xl font-bold top-[250px] left-[850px]">
           Unleash Your True Potential
         </p>
@@ -31,7 +31,7 @@ export const Home = () => {
         {
           <>
             <button className="p-2 border-none bg-[#373837] text-white text-lg font-medium rounded-md cursor-pointer hover:bg-[#080808]">
-             Start Today
+              Start Today
             </button>
           </>
         }

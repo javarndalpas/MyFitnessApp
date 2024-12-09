@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Bounce, toast } from 'react-toastify';
 
 export const Signup = () => {
     const navigate = useNavigate();
@@ -46,7 +47,17 @@ export const Signup = () => {
             })
             .then((json) => {
                 console.log('Success:', json);
-                alert('Signup successful!');
+                toast(' Signup Successfull!', {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                    transition: Bounce,
+                    });
                 navigate("/")
             })
             .catch((error) => {

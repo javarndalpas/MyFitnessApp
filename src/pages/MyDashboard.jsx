@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { Workouts } from './Workouts';
+import { Bounce, toast } from 'react-toastify';
 
 export const MyDashboard = () => {
     const navigate = useNavigate();
@@ -17,13 +17,14 @@ export const MyDashboard = () => {
     }
     const protien = 50;
 
+
     const getData = async () => {
         try {
             const response = await fetch(`https://6750666869dc1669ec1afc0f.mockapi.io/auth/${id}`)
             const result = await response.json();
             setUserWorkouts(result.userWorkout);
             setUserFoods(result.userFood);
-            console.log(result, "tytytytty");
+            // console.log(result, "tytytytty");
             setData(result);
             const completed = result.userWorkout.filter((workout) => workout.completed === true);
             const Incompleted = result.userWorkout.filter((workout) => workout.completed === false);
@@ -32,15 +33,7 @@ export const MyDashboard = () => {
             console.log(Incompleted, "Incompleted");
 
             setCompletedWorkouts(completed);
-            setIncompletedWorkouts(Incompleted)
-            const required_amount = userfoods.reduce((acc, el) => (
-                acc += el.protein
-
-            ), 0)
-            setrequiredAmount(required_amount);
-
-            // console.log(required_amount,"======")
-            // console.log(requiredAmount,"======")
+            setIncompletedWorkouts(Incompleted);
         }
         catch (err) {
             console.log(err);
@@ -71,13 +64,59 @@ export const MyDashboard = () => {
             console.log('Error marking workout as completed:', err);
         }
     };
+    const removeMeal = async (foodId) => {
+        try {
+            const UpdatedFoods = userfoods.filter(food => {
+                return food.id !== foodId;
+            }
+            );
+            console.log(UpdatedFoods, foodId, "xxxxx")
+            const response = await fetch(`https://6750666869dc1669ec1afc0f.mockapi.io/auth/${id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    ...data,
+                    userFood: UpdatedFoods,
+                }),
+            });
+            const updatedUser = await response.json();
+            setUserFoods(updatedUser.userFood);
+            toast(' Workout Added Successfully!', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+                transition: Bounce,
+            });
+            console.log('Food has been removed:', updatedUser.userFood);
+        } catch (err) {
+            console.log('Error marking workout as completed:', err);
+        }
+    };
+
+
     useEffect(() => {
         getData();
     }, []);
 
-    const addAWorkout =()=>{
+    useEffect(() => {
+
+        if (userfoods) {
+            const requiredAmount = userfoods.reduce((acc, el) => acc + el.protein, 0) - protien;
+            setrequiredAmount(requiredAmount);
+        }
+    }, [userfoods]);
+
+    const addAWorkout = () => {
         navigate("/workouts")
     }
+
     return (
         <>
             <div className="">
@@ -95,21 +134,21 @@ export const MyDashboard = () => {
                                 </div>
                             </div>
 
-                            <div className='mt-4 mb-4 bg-black p-4'>
+                            <div className='mt-4 mb-4 bg-black p-4 shadow-xl'>
                                 <p className='text-4xl text-white'>My Workouts</p>
                                 {/* <p className='text-2xl text-black'>An average human required 50 gm of protein in a day.</p> */}
                             </div>
-                            <div className='py-2 bg-blue-500'>
+                            <div className='py-2 bg-gray-700 shadow-xl'>
                                 <p className='text-2xl text-white'>Past Workouts</p>
                             </div>
-                            <div className='flex flex-wrap gap-6 place-content-center mt-4'>
+                            <div className='flex flex-wrap gap-6 place-content-center mt-4 '>
                                 {
                                     completedWorkouts && completedWorkouts.length > 0 ?
                                         (
                                             completedWorkouts.map((workout) => (
                                                 <div className="Grid grid-rows-2 max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700" key={workout.id}>
                                                     <a href="#">
-                                                        <img className="rounded-t-lg" src="https://i0.wp.com/post.healthline.com/wp-content/uploads/2023/02/female-dumbbells-1296x728-header-1296x729.jpg?w=1155&h=2268" alt="" />
+                                                        <img className="rounded-t-lg" src={workout.img_url} alt="" />
                                                     </a>
                                                     <div className="p-5">
                                                         <a href="#">
@@ -128,7 +167,7 @@ export const MyDashboard = () => {
                                         )
                                 }
                             </div>
-                            <div className='py-2 my-4 bg-blue-500'>
+                            <div className='shadow-2xl py-2 my-4  bg-gray-700 '>
                                 <p className='text-2xl text-white'>Pending Workouts</p>
                             </div>
                             <div className='flex flex-wrap gap-6 place-content-center'>
@@ -137,7 +176,7 @@ export const MyDashboard = () => {
                                         <div key={workout.id}>
                                             <div className="Grid grid-rows-2 max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
                                                 <a href="#">
-                                                    <img className="rounded-t-lg" src="https://i0.wp.com/post.healthline.com/wp-content/uploads/2023/02/female-dumbbells-1296x728-header-1296x729.jpg?w=1155&h=2268" alt="" />
+                                                    <img className="rounded-t-lg" src={workout.img_url} alt="" />
                                                 </a>
                                                 <div className="p-5">
                                                     <a href="#">
@@ -159,8 +198,8 @@ export const MyDashboard = () => {
                                     ))
                                 ) : (
                                     <div>
-                                    <p>No workouts found.</p>
-                                    <button type="button" onClick={()=>addAWorkout()} class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">Add a Workout</button>
+                                        <p>No workouts found.</p>
+                                        <button type="button" onClick={() => addAWorkout()} class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">Add a Workout</button>
                                     </div>
                                 )}
                             </div>
@@ -176,7 +215,7 @@ export const MyDashboard = () => {
                                         <div key={food.id + Math.random()}>
                                             <div className="p-6 Grid grid-rows-2 max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
                                                 <a href="#">
-                                                    <img className="rounded-t-lg" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQeRudytpIdVDX36gEv7WeMvcIMVFfJ4Gn0ng&s" alt="" />
+                                                    <img className="rounded-t-lg" src={food.imageUrl} alt="" />
                                                 </a>
                                                 <div className="p-5">
                                                     <a href="#">
@@ -189,12 +228,16 @@ export const MyDashboard = () => {
                                                     <p><strong>Carbs:</strong> {food.carbs} g</p>
                                                     <p><strong>Fats:</strong> {food.fats} g</p>
                                                     <p><strong>Meal Time:</strong> {food.recommendedTime}</p>
+                                                    <button onClick={() => removeMeal(food.id)} type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mt-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Remove Meal</button>
                                                 </div>
                                             </div>
                                         </div>
                                     ))
                                 ) : (
-                                    <p>No foods found.</p>
+                                    <div>
+                                        <p>No foods found.</p>
+                                        <button type="button" onClick={() => { navigate('/food&calories') }} class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mt-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Add Meals</button>
+                                    </div>
                                 )}
                             </div>
                         </>

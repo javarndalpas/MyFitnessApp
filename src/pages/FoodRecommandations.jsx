@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import { Bounce, toast } from "react-toastify";
 
 export const FoodRecommandations = () => {
     const [data, setData] = useState([]);
@@ -11,7 +12,6 @@ export const FoodRecommandations = () => {
         // alert("Please login first")
     }
     const getData = async () => {
-
         try {
             const response = await fetch(`https://66db6975f47a05d55be7f16e.mockapi.io/foodandCalories`);
             const data = await response.json();
@@ -38,6 +38,17 @@ export const FoodRecommandations = () => {
             console.log(user.userFood, "uuuuuu")
             const updatedUser = await response.json();
             setUser(updatedUser);
+            toast(' Meal Added Successfully!', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+                transition: Bounce,
+            });
             console.log('Food added:');
         } catch (err) {
             console.log('Error adding Food:', err);
@@ -58,14 +69,18 @@ export const FoodRecommandations = () => {
         }
         getUser();
     }, [id]);
-
     return (
         <>
+            <div className='mt-4 mb-4 bg-black p-4'>
+                <p className='text-4xl text-white'>Food and Calories</p>
+                <p className='text-2xl text-white'>Top meal recommandations tailor- made only for you</p>
+                <p className='text-2xl text-white'> You required 50 gm more to complete your diet </p>
+            </div>
             <div className="flex flex-wrap gap-6">
                 {data.map((food) => (
                     <div key={food.id} className="p-6 max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
                         <Link to="#">
-                            <img className="rounded-t-lg" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQeRudytpIdVDX36gEv7WeMvcIMVFfJ4Gn0ng&s" alt={food.name} />
+                            <img className="rounded-t-lg" src={food.imageUrl} alt={food.name} />
                         </Link>
                         <p className="text-xl font-semibold">{food.name}</p>
                         <p className="mb-3 font-normal text-gray-700 dark:text-gray-400"><strong>Recommended For:</strong> {food.recommendedFor}</p>
@@ -81,6 +96,5 @@ export const FoodRecommandations = () => {
                 ))}
             </div>
         </>
-
     )
 }

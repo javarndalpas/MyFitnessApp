@@ -8,7 +8,7 @@ export const Workouts = () => {
     const [user, setUser] = useState(null);
     const id = localStorage.getItem("userId")
     // const [presentWorkout,setPresentWorkout] = ([workoutId])
-    if(id==undefined){
+    if (id == undefined) {
         navigate("/");
     }
     const getData = async () => {
@@ -24,7 +24,7 @@ export const Workouts = () => {
     const addWorkout = async (workoutId) => {
         try {
             // if(presentWorkout.include(workoutId)) return
-            
+
             const workout = data.find(workout => workout.id === workoutId);
             const response = await fetch(`https://6750666869dc1669ec1afc0f.mockapi.io/auth/${id}`, {
                 method: 'PUT',
@@ -48,7 +48,7 @@ export const Workouts = () => {
                 progress: undefined,
                 theme: "dark",
                 transition: Bounce,
-                });
+            });
 
             console.log('Workout added:', updatedUser);
         } catch (err) {
@@ -77,7 +77,7 @@ export const Workouts = () => {
                     <div key={workout.id} className="p-6 max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
                         <div className="grid-cols-2">
                             <Link to="#">
-                                <img  className="rounded-t-lg object-cover w-full h-48" src={workout.img_url} alt={workout.name} />
+                                <img className="rounded-t-lg object-cover w-full h-48" src={workout.img_url} alt={workout.name} />
                             </Link>
                             <p className="text-xl-4 ">{workout.name}</p>
                             <p className="mb-3 font-normal text-gray-700 dark:text-gray-400"><strong>Difficulty:</strong> {workout.difficulty}</p>
